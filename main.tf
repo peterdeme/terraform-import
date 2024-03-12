@@ -12,3 +12,14 @@
 resource "random_pet" "pet1" {
   length = 5
 }
+
+resource "random_pet" "pet2" {
+  length = 5
+}
+
+moved {
+  from = random_pet.pet1
+  to   = random_pet.pet2
+}
+
+// 1
