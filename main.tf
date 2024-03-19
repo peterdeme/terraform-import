@@ -4,10 +4,10 @@ resource "aws_ssm_parameter" "testparam" {
   value = "text"
 }
 
-#import {
-#  id = "arn:aws:ssm:eu-central-1:705096403113:parameter/peterdeme-test-toimport"
-#  to = aws_ssm_parameter.testparam
-#}
+import {
+  id = "arn:aws:ssm:eu-central-1:705096403113:parameter/peterdeme-test-toimport"
+  to = aws_ssm_parameter.testparam
+}
 
 #resource "random_pet" "pet2" {
  # length = 5
