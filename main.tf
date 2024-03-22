@@ -1,19 +1,26 @@
-resource "aws_ssm_parameter" "testparam" {
-  name  = "peterdeme-test-toimport"
-  type  = "String"
-  value = "text"
+provider "aws" {
+  region = "eu-central-1"
 }
 
-import {
-  id = "arn:aws:ssm:eu-central-1:705096403113:parameter/peterdeme-test-toimport"
-  to = aws_ssm_parameter.testparam
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
 }
 
-#resource "random_pet" "pet2" {
- # length = 5
-#}
+variable "names" {
+  description = "Names of the SSM parameters."
+  type        = list(string)
+  default     = ["import-1", "import-2"]
+}
 
-#moved {
-#  from = random_pet.pet1
-#  to   = random_pet.pet2
-#}
+
+module "iam_example_user" {
+  source   = "./modules"
+  for_each = toset(var.names)
+
+  name = each.value
+}
