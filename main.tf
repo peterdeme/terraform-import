@@ -11,16 +11,27 @@ terraform {
   }
 }
 
-variable "names" {
-  description = "Names of the SSM parameters."
-  type        = list(string)
-  default     = ["import-1", "import-2"]
-}
+# variable "names" {
+#   description = "Names of the SSM parameters."
+#   type = map(object({
+#     name = string
+#   }))
+#   default = {
+#     import-1 = "import-1"
+#     import-2 = "import-2"
+#   }
+# }
 
 
-module "iam_example_user" {
-  source   = "./modules"
-  for_each = toset(var.names)
+module "parameters" {
+  source = "./modules"
+  for_each = {
+    import-1 = "import-1"
+    import-2 = "import-2"
+  }
 
   name = each.value
 }
+
+# Import command:
+# terraform import 'module.parameters["import-1"].aws_ssm_parameter.ssm-param' arn:aws:ssm:eu-central-1:705096403113:parameter/import-1
